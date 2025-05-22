@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-4">Vagas Disponíveis</h1>
+      <h1 className="text-3xl font-bold mb-4 bg-color-red ">Vagas Disponíveis</h1>
 
       <input
         className="border p-2 mb-4 w-full"
