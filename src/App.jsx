@@ -1,20 +1,42 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Navbar from './components/Navbar'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Preferences from './pages/Preferences'
+import Dashboard from './pages/DashboardAdmin'
+import Navbar from './components/Navbar'
+import RequireAuth from './components/RequireAuth'
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/preferences" element={<div>Preferências</div>} />
-        <Route path="/dashboard" element={<div>Dashboard Admin</div>} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+
+          <Route
+            path="/preferences"
+            element={
+              <RequireAuth>
+                <Preferences />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth role="admin">
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   )
 }
-
-export default App
