@@ -10,10 +10,11 @@ export const login = (credentials, isAdmin) => {
       const route = isAdmin ? '/login/admin' : '/login'
 
       const response = await axios.post(`${VITE_API_URL}${route}`, credentials)
-
-      const user = response.data.user
-
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user })
+      const { user, token } = response.data.user
+      dispatch({ 
+        type: 'LOGIN_SUCCESS', 
+        payload: { user, token } 
+      })
     } catch (error) {
       dispatch({
         type: 'LOGIN_FAILURE',
@@ -33,9 +34,12 @@ export const register = (userData) => {
     try {
       const response = await axios.post(`${VITE_API_URL}/register`, userData)
 
-      const user = response.data.user
+      const { user, token } = response.data
 
-      dispatch({ type: 'REGISTER_SUCCESS', payload: user })
+      dispatch({ 
+        type: 'REGISTER_SUCCESS', 
+        payload: { user, token } 
+      })
     } catch (error) {
       dispatch({
         type: 'REGISTER_FAILURE',
@@ -46,7 +50,6 @@ export const register = (userData) => {
     }
   }
 }
-
 
 export const logout = () => ({
   type: 'LOGOUT'

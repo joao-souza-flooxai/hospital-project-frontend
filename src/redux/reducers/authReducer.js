@@ -1,22 +1,30 @@
 const userFromStorage = JSON.parse(localStorage.getItem('user'))
+const tokenFromStorage = localStorage.getItem('token')
 
 const initialState = {
   user: userFromStorage || null,
+  token: tokenFromStorage || null,
   loading: false,
   error: null
 }
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
-   
+
     case 'LOGIN_REQUEST':
     case 'REGISTER_REQUEST':
       return { ...state, loading: true, error: null }
 
     case 'LOGIN_SUCCESS':
     case 'REGISTER_SUCCESS':
-      localStorage.setItem('user', JSON.stringify(action.payload))
-      return { ...state, loading: false, user: action.payload }
+      localStorage.setItem('user', JSON.stringify(action.payload.user))
+      localStorage.setItem('token', action.payload.token)
+      return { 
+        ...state, 
+        loading: false, 
+        user: action.payload.user, 
+        token: action.payload.token 
+      }
 
     case 'LOGIN_FAILURE':
     case 'REGISTER_FAILURE':
@@ -24,7 +32,14 @@ export const authReducer = (state = initialState, action) => {
 
     case 'LOGOUT':
       localStorage.removeItem('user')
-      return { ...state, user: null }
+      localStorage.removeItem('token')
+      return { ...state, user: null, token: null }
+
+      case 'AUTH_UPDATE_USER':
+      return {
+        ...state,
+        user: action.payload
+      };
 
     default:
       return state
