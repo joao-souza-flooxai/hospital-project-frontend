@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5554' 
-
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 export const login = (credentials, isAdmin) => {
   return async (dispatch) => {
@@ -10,7 +9,7 @@ export const login = (credentials, isAdmin) => {
     try {
       const route = isAdmin ? '/login/admin' : '/login'
 
-      const response = await axios.post(`${API_URL}${route}`, credentials)
+      const response = await axios.post(`${VITE_API_URL}${route}`, credentials)
 
       const user = response.data.user
 
@@ -21,6 +20,28 @@ export const login = (credentials, isAdmin) => {
         payload:
           error.response?.data?.message ||
           'Erro ao fazer login. Tente novamente.'
+      })
+    }
+  }
+}
+
+
+export const register = (userData) => {
+  return async (dispatch) => {
+    dispatch({ type: 'REGISTER_REQUEST' })
+
+    try {
+      const response = await axios.post(`${VITE_API_URL}/register`, userData)
+
+      const user = response.data.user
+
+      dispatch({ type: 'REGISTER_SUCCESS', payload: user })
+    } catch (error) {
+      dispatch({
+        type: 'REGISTER_FAILURE',
+        payload:
+          error.response?.data?.message ||
+          'Erro ao registrar. Tente novamente.'
       })
     }
   }

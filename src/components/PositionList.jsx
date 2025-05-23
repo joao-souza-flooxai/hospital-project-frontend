@@ -42,9 +42,13 @@ export default function PositionList({ title = 'Trabalhos Voluntários Disponív
       {error && <p className="text-red-500">{error}</p>}
 
       <div className="grid gap-4">
-        {positions.map((position) => (
-          <CardPosition key={position.id} position={position} />
-        ))}
+        {positions && positions.length > 0 ? (
+          positions.map((position) => (
+            <CardPosition key={position.id} position={position} />
+          ))
+        ) : (
+          <span>Sem vagas no momento.</span>
+        )}
       </div>
 
       <div className="flex justify-center gap-4 mt-6">

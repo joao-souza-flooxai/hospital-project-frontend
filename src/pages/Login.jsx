@@ -22,7 +22,6 @@ export default function Login() {
     dispatch(login(credentials, isAdmin))
   }
 
-  // ✅ Só navega se houver um usuário logado
   useEffect(() => {
     if (user) {
       navigate('/')

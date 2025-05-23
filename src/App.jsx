@@ -6,6 +6,8 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Preferences from './pages/Preferences'
 import Dashboard from './pages/DashboardAdmin'
+import  Register  from './pages/Register'
+
 import Navbar from './components/Navbar'
 import RequireAuth from './components/RequireAuth'
 
@@ -17,7 +19,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-
+          <Route path="/register" element={<Register />} />
           <Route
             path="/preferences"
             element={
