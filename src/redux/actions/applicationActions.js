@@ -36,4 +36,39 @@ export const applyToPosition = (positions_id) => async (dispatch, getState) => {
         'Erro ao se inscrever na vaga. Tente novamente.'
     })
   }
+
+
+}
+
+export const fetchUserApplications = () => async (dispatch, getState) => {
+  const { auth } = getState()
+
+  if (!auth.user || !auth.token) {
+    return dispatch({
+      type: 'FETCH_APPLICATIONS_FAILURE',
+      payload: 'Usuário não autenticado'
+    })
+  }
+
+  dispatch({ type: 'FETCH_APPLICATIONS_REQUEST' })
+
+  try {
+    const res = await axios.get(`${VITE_API_URL}/user/applications`, {
+      headers: {
+        Authorization: `Bearer ${auth.token}`
+      }
+    })
+
+    dispatch({
+      type: 'FETCH_APPLICATIONS_SUCCESS',
+      payload: res.data
+    })
+  } catch (error) {
+    dispatch({
+      type: 'FETCH_APPLICATIONS_FAILURE',
+      payload:
+        error.response?.data?.message ||
+        'Erro ao buscar inscrições. Tente novamente.'
+    })
+  }
 }

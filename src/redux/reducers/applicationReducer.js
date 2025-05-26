@@ -1,7 +1,8 @@
 const initialState = {
   loading: false,
   success: false,
-  error: null
+  error: null,
+  applications: [],
 }
 
 const applicationReducer = (state = initialState, action) => {
@@ -11,6 +12,12 @@ const applicationReducer = (state = initialState, action) => {
     case 'APPLY_TO_POSITION_SUCCESS':
       return { ...state, loading: false, success: true }
     case 'APPLY_TO_POSITION_FAILURE':
+      return { ...state, loading: false, error: action.payload }
+    case 'FETCH_APPLICATIONS_REQUEST':
+      return { ...state, loading: true, error: null }
+    case 'FETCH_APPLICATIONS_SUCCESS':
+      return { ...state, loading: false, applications: action.payload }
+    case 'FETCH_APPLICATIONS_FAILURE':
       return { ...state, loading: false, error: action.payload }
     default:
       return state
