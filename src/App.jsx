@@ -10,6 +10,7 @@ import  Register  from './pages/Register'
 
 import Navbar from './components/Navbar'
 import RequireAuth from './components/RequireAuth'
+import LeaderBoard from './pages/LeaderBoard'
 
 export default function App() {
   return (
@@ -37,6 +38,10 @@ export default function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path='/leaderboard'
+            element={<LeaderBoard/>}>
+          </Route>
         </Routes>
       </BrowserRouter>
     </Provider>

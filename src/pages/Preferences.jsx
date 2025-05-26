@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { fetchPreferences, updatePreferences } from '../redux/reducers/preferencesActions'
+import { fetchPreferences, updatePreferences } from '../redux/actions/preferencesActions'
 import { useNavigate } from 'react-router-dom';
 
 

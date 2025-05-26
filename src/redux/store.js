@@ -2,9 +2,12 @@ import { combineReducers, createStore, applyMiddleware } from 'redux'
 import {thunk} from 'redux-thunk'
 import { positionReducer } from './reducers/positionReducer'
 import { authReducer } from './reducers/authReducer'
+import { leaderboardReducer } from './reducers/leaderBoardReducer'
+
 const rootReducer = combineReducers({
   positions: positionReducer,
-  auth: authReducer
+  auth: authReducer,
+  leaderboard: leaderboardReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))

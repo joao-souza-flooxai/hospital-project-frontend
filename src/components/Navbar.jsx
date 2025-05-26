@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../redux/reducers/authActions'
+import { logout } from '../redux/actions/authActions'
 
 export default function Navbar() {
   const { user } = useSelector((state) => state.auth)
@@ -28,7 +28,7 @@ export default function Navbar() {
             Dashboard
           </Link>
         )}
-        
+         <Link to="/leaderboard">Leaderboard</Link>
         {user ? (
           <>
             <Link to="/preferences" className="hover:underline">

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { register } from '../redux/reducers/authActions'
+import { register } from '../redux/actions/authActions'
 
 export default function Register() {
   const [name, setName] = useState('')

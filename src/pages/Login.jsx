@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { login } from '../redux/reducers/authActions'
+import { login } from '../redux/actions/authActions'
 
 export default function Login() {
   const [email, setEmail] = useState('')

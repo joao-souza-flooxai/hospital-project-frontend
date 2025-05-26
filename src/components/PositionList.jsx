@@ -4,7 +4,7 @@ import {
   fetchPositions,
   setFilter,
   setPage
-} from '../redux/reducers/positionActions'
+} from '../redux/actions/positionActions'
 
 import CardPosition from './CardPosition'
 //Mais tarde terá que receber as props
