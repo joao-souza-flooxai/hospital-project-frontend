@@ -71,4 +71,8 @@ export const fetchUserApplications = () => async (dispatch, getState) => {
         'Erro ao buscar inscrições. Tente novamente.'
     })
   }
+
+  
 }
+
+
