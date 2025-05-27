@@ -4,11 +4,13 @@ import { positionReducer } from './reducers/positionReducer'
 import { authReducer } from './reducers/authReducer'
 import { leaderboardReducer } from './reducers/leaderBoardReducer'
 import applicationReducer from './reducers/applicationReducer'
+import adminPositionsReducer from './reducers/adminPositionReducer'
 const rootReducer = combineReducers({
   positions: positionReducer,
   auth: authReducer,
   leaderboard: leaderboardReducer,
-  application: applicationReducer
+  application: applicationReducer,
+  adminPositions: adminPositionsReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))

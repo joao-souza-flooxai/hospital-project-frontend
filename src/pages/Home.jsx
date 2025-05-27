@@ -4,7 +4,7 @@ import LeaderBoard from "../components/LeaderBoard"
 export default function Home() {
   return (
     <>
-      <PositionList />
+      <PositionList title="Trabalhos Voluntários Disponíveis" />
       <LeaderBoard limit={5} />
     </>
   )

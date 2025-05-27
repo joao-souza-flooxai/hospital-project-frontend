@@ -1,11 +1,22 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { applyToPosition } from '../redux/actions/applicationActions'
+import { deletePosition } from '../redux/actions/adminPositionsActions'
+import { useState } from 'react';
+import CreateOrEditPositionModal from './CreateOrEditPositionModal';
 
-export default function CardPosition({ position }) {
+export default function CardPosition({ position, isAdmin = false }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [isEditOpen, setIsEditOpen] = useState(false)
 
+  const handleEdit = () => {
+    setIsEditOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsEditOpen(false)
+  }
   const { user } = useSelector((state) => state.auth)
 
   const handleApply = () => {
@@ -13,7 +24,11 @@ export default function CardPosition({ position }) {
       navigate('/login')
       return
     }
-
+    if(user.role=='admin'){
+       alert("Administradores não podem se candidatar.");
+       return;
+    }
+     
     const confirmApply = window.confirm(
       `Deseja realmente se inscrever para a posição "${position.title}"?`
     )
@@ -22,6 +37,16 @@ export default function CardPosition({ position }) {
 
     dispatch(applyToPosition(position.id))
   }
+
+  const handleDelete = () => {
+    const confirmDelete = window.confirm(
+      `Deseja realmente remover a posição "${position.title}"?`
+    )
+    if (confirmDelete) {
+      dispatch(deletePosition(position.id))
+    }
+  }
+
 
   return (
     <div className="border rounded shadow hover:shadow-md transition bg-white">
@@ -35,16 +60,51 @@ export default function CardPosition({ position }) {
       </div>
 
       <div className="p-4">
-        <p className="mt-2 font-medium">{position.hospital.name}</p>
-        <p className="mt-2">{position.description}</p>
+        <p className="mt-2 font-medium">
+          Hospital: {position?.hospital?.name}
+          {!isAdmin && position?.hospital?.location ? `, ${position.hospital.location}` : ''}
+        </p>
+        <p className="mb-2 text-gray-700">{position.description || "Sem descrição."}</p>
 
-        <button
-          onClick={handleApply}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Inscrever-se
-        </button>
-      </div>
+        {isAdmin && (
+            <div className="flex justify-between items-center mt-4">
+              <p className="text-sm text-gray-500">
+                Criado por: <span className="font-medium">{position.admin?.name}</span>
+              </p>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={handleEdit}
+                  className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={handleDelete}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  Remover
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!isAdmin && (
+            <button
+              onClick={handleApply}
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Inscrever-se
+            </button>
+          )}
+
+          {<CreateOrEditPositionModal
+              isOpen={isEditOpen}
+              onClose={handleCloseModal}
+              position={position}
+            />}
+
+        </div>
     </div>
   )
 }

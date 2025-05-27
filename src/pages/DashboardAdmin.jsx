@@ -1,4 +1,5 @@
 import ManagePositions from "../components/ManagePositions";
+import PositionList from "../components/PositionList";
 import PositionsToApprove from "../components/PostionsToApprove";
 
 export default function DashboardAdmin() {
@@ -6,7 +7,7 @@ export default function DashboardAdmin() {
     <div className="p-6">
       <h1 className="text-2xl font-bold">Dashboard do Admin</h1>
       <p className="mt-2">Aqui você gerencia as posições do seu hospital.</p>
-      <PositionsToApprove/>
+      <PositionList title="Vagas Abertas do seu Hospital" isAdmin={true}/>
       <ManagePositions/>
     </div>
   )
