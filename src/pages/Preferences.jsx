@@ -1,14 +1,21 @@
 import UpdatePreferences from '../components/UpdatePreferences'
 import MySubscriptions from '../components/MySubscriptions'
-
+import Collapse from '../components/Collapse'
 export default function Preferences() {
   return (
-    <div className="p-6 flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl font-bold">Preferências</h1>
-      <p className="mt-2">Configurações da sua conta.</p>
-
-      <UpdatePreferences />
-      <MySubscriptions />
+    <div className="p-6">
+    <Collapse title="Configurações da sua conta.">
+        <div className="flex justify-center">
+          <UpdatePreferences />
+        </div>
+      </Collapse>
+      
+      <Collapse title="Suas Aplicações">
+        <div className="flex justify-center">
+          <MySubscriptions />
+        </div>
+      </Collapse>
     </div>
+
   )
 }

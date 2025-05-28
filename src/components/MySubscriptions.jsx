@@ -20,7 +20,6 @@ export default function MySubscriptions() {
 
   return (
     <div className="mt-10 max-w-3xl w-full">
-      <h2 className="text-xl font-semibold mb-4">Minhas Inscrições</h2>
       <div className="space-y-4">
         {applications.map((app) => (
           <div
