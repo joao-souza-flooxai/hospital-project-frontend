@@ -36,6 +36,7 @@ export default function CardPosition({ position, isAdmin = false }) {
     if (!confirmApply) return
 
     dispatch(applyToPosition(position.id))
+    window.location.reload();
   }
 
   const handleDelete = () => {

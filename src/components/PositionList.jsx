@@ -63,7 +63,6 @@ export default function PositionList({ title, isAdmin = false }) {
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">{title}</h1>
 
-      {/* Botão Criar só para admin */}
       {isAdmin && (
         <div className="mb-4">
           <button
@@ -75,7 +74,6 @@ export default function PositionList({ title, isAdmin = false }) {
         </div>
       )}
 
-      {/* Modal para criação */}
       <CreateOrEditPositionModal
         isOpen={isCreateOpen}
         onClose={closeCreateModal}

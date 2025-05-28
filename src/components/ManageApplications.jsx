@@ -29,7 +29,6 @@ export default function ManageApplications() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-semibold mb-4">Gerenciar Aplicações</h1>
 
       <div className="grid gap-4">
         {applications.map(app => (
@@ -37,24 +36,26 @@ export default function ManageApplications() {
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-xl font-bold">{app.position.title}</h2>
+                <p>{app.position.description}</p>
               </div>
               <span className={`px-2 py-1 rounded text-white ${
-                app.status === 'APPROVED' ? 'bg-green-600' :
-                app.status === 'REJECTED' ? 'bg-red-600' :
-                'bg-gray-500'
+                app.status === 'ACTIVE' ? 'bg-green-600' :
+                app.status === 'CLOSED' ? 'bg-red-600' :
+                'bg-yellow-100 text-yellow-800'
               }`}>
                 {app.status}
               </span>
             </div>
-
+              
             <div className="mt-4">
+              <h2 className="text-xl font-bold">Candidato:</h2>
               <p><strong>Nome:</strong> {app.user.name || "Erro ao carregador o nome."} </p>
               <p><strong>Documento:</strong> {app.user.document || "Erro ao carregador o Documento."}</p>
               <p><strong>Idade:</strong> {app.user.age|| "Erro ao carregador o Idade."}</p>
               <p><strong>Gênero:</strong> {app.user.gender|| "Erro ao carregador o Gênero."}</p>
               <p><strong>Email:</strong> {app.user.email|| "Erro ao carregador o Email."}</p>
               <p><strong>Localidade:</strong> {app.user.location|| "Erro ao carregador o Localidade."}</p>
-              <p><strong>Score atual:</strong> {app.user.score|| "Erro ao carregador o Score atual."}</p>
+              <p><strong>Score atual:</strong> {app.user.score|| 0}</p>
             </div>
 
             {app.status === 'PENDING' && (

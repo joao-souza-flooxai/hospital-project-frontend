@@ -40,14 +40,14 @@ export default function MySubscriptions() {
                 className={`px-3 py-1 rounded-full text-sm ${
                   app.status === 'PENDING'
                     ? 'bg-yellow-100 text-yellow-800'
-                    : app.status === 'APPROVED'
+                    : app.status === 'ACTIVE'
                     ? 'bg-green-100 text-green-800'
                     : 'bg-red-100 text-red-800'
                 }`}
               >
                 {app.status === 'PENDING' && 'Pendente'}
-                {app.status === 'APPROVED' && 'Aprovado'}
-                {app.status === 'REJECTED' && 'Recusado'}
+                {app.status === 'ACTIVE' && 'Aprovado'}
+                {app.status === 'CLOSED' && 'Recusado'}
               </span>
             </div>
           </div>

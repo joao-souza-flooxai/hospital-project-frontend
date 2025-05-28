@@ -34,7 +34,7 @@ export const register = (userData) => {
     try {
       const response = await axios.post(`${VITE_API_URL}/register`, userData)
 
-      const { user, token } = response.data
+      const { user, token } = response.data.user;
 
       dispatch({ 
         type: 'REGISTER_SUCCESS', 
