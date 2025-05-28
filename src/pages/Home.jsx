@@ -7,7 +7,7 @@ export default function Home() {
       <Collapse title="Trabalhos Voluntários Disponíveis">
               <PositionList/>
       </Collapse>
-      <Collapse title="Gerenciar Aplicações">
+      <Collapse title="LeaderBoard">
             <LeaderBoard limit={5} />
       </Collapse>
         
