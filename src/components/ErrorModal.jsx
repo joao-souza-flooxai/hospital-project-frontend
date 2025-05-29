@@ -1,4 +1,4 @@
-import { errorHandler } from "../../../backend/src/errors/errorHandler";
+import { errorHandler } from "../util/errorsHandler.js"
 const ErrorModal = ({ title, message, onClose }) => {
   if (!message) return null;
 
