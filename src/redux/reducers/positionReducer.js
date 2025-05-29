@@ -18,7 +18,8 @@ export const positionReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         positions: action.payload.positions,
-        totalPages: action.payload.totalPages
+        totalPages: action.payload.totalPages,
+        success: true
       }
 
     case 'FETCH_POSITIONS_FAILURE':

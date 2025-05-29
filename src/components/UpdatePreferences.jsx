@@ -165,13 +165,13 @@ export default function UpdatePreferences() {
         />
       )}
 
-    {(successUpdate) && (
-      <ErrorModal
-        title="Sucesso"
-        message="Operação realizada com sucesso!"
-        onClose={() => dispatch({ type: 'CLEAR_PREFERENCES_UPDATE_SUCCESS' })}
-      />
-    )}
+      {(successUpdate) && (
+        <ErrorModal
+          title="Sucesso"
+          message="Operação realizada com sucesso!"
+          onClose={() => dispatch({ type: 'CLEAR_PREFERENCES_UPDATE_SUCCESS' })}
+        />
+      )}
 
     </form>
 

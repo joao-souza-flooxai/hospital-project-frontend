@@ -37,7 +37,8 @@ export default function adminPositionsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        positions: state.positions.filter((pos) => pos.id !== action.payload)
+        positions: state.positions.filter((pos) => pos.id !== action.payload),
+        success: true
       }
 
     case 'ADMIN_POSITION_DELETE_FAIL':
@@ -50,8 +51,10 @@ export default function adminPositionsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
+        success: true,
         positions: state.positions.map((pos) =>
-          pos.id === action.payload.id ? action.payload : pos
+          pos.id === action.payload.id ? action.payload : pos,
+        
         ),
       }
 
@@ -65,7 +68,8 @@ export default function adminPositionsReducer(state = initialState, action) {
     return {
       ...state,
       loading: false,
-      positions: [...state.positions, action.payload]
+      positions: [...state.positions, action.payload],
+      success: true
     }
 
   case 'ADMIN_POSITION_CREATE_FAIL':

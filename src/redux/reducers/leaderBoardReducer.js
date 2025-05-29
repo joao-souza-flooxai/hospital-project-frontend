@@ -2,7 +2,6 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  success: false,
 };
 
 export const leaderboardReducer = (state = initialState, action) => {
