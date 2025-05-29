@@ -12,6 +12,7 @@ const adminApplicationsReducer = (state = initialState, action) => {
     case 'FETCH_APPLICATIONS_ADMIN_SUCCESS':
       return { ...state, loading: false, applications: action.payload }
     case 'FETCH_APPLICATIONS_ADMIN_FAILURE':
+    case 'UPDATE_APPLICATIONS_ADMIN_FAILURE':
       return { ...state, loading: false, error: action.payload }
     case 'CLEAR_APPLICATIONS_ADMIN_ERRORS':
       return { ...state, error: null }

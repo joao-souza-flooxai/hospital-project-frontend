@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPreferences, updatePreferences } from '../redux/actions/preferencesActions'
-import ErrorModal from './ErrorModal'
+import ErrorModal from './ErrorOrSucessModal'
 export default function UpdatePreferences() {
   const dispatch = useDispatch()
   const { user, loading } = useSelector((state) => state.auth)
@@ -160,7 +160,7 @@ export default function UpdatePreferences() {
         <ErrorModal
           title="Falha"
           message={errorUpdate}
-          onClose={() => dispatch(  { type: 'CLEAR_PREFERENCES_UPDATE_ERRORS' }  
+          onClose={() => dispatch(  { type: 'CLEAR_PREFERENCES_UPDATE_ERRORS' }
           )}
         />
       )}

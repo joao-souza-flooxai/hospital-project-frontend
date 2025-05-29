@@ -1,6 +1,6 @@
 import axios from "axios";
 const VITE_API_URL = import.meta.env.VITE_API_URL;
-
+import { errorMessage } from "../../util/errorsMessage";
 export const fetchLeaderboard = (limit = 5) => async (dispatch) => {
   dispatch({ type: 'FETCH_LEADERBOARD_REQUEST' });
 
@@ -13,7 +13,7 @@ export const fetchLeaderboard = (limit = 5) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'FETCH_LEADERBOARD_FAILURE',
-      payload: error.response?.data?.message || error.message,
+      payload:  errorMessage(error, 'Erro ao exibir a leaderboard.' )
     });
   }
 };

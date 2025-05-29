@@ -1,12 +1,13 @@
 import axios from 'axios'
 const VITE_API_URL = import.meta.env.VITE_API_URL
+import { errorMessage } from '../../util/errorsMessage';
 
 export const applyToPosition = (positions_id) => (dispatch, getState) => {
   const { auth } = getState();
   if (!auth.user || !auth.token) {
     return dispatch({
       type: 'APPLY_TO_POSITION_FAILURE',
-      payload: 'Usuário não autenticado',
+      payload: errorMessage({},'Usuário não autenticado' )
     });
   }
 
@@ -29,8 +30,7 @@ export const applyToPosition = (positions_id) => (dispatch, getState) => {
       dispatch({
         type: 'APPLY_TO_POSITION_FAILURE',
         payload:
-          error.response?.data?.message ||
-          'Erro ao se inscrever na vaga. Tente novamente.',
+          errorMessage(error,' Erro ao se inscrever na vaga. Tente novamente.' )
       });
     });
 };
@@ -41,7 +41,7 @@ export const fetchUserApplications = () => async (dispatch, getState) => {
   if (!auth.user || !auth.token) {
     return dispatch({
       type: 'FETCH_APPLICATIONS_FAILURE',
-      payload: 'Usuário não autenticado'
+      payload:  errorMessage({},'Usuário não autenticado' ) 
     })
   }
 
@@ -62,8 +62,8 @@ export const fetchUserApplications = () => async (dispatch, getState) => {
     dispatch({
       type: 'FETCH_APPLICATIONS_FAILURE',
       payload:
-        error.response?.data?.message ||
-        'Erro ao buscar inscrições. Tente novamente.'
+       errorMessage(error, 'Erro ao buscar inscrições. Tente novamente.' )
+       
     })
   }
 

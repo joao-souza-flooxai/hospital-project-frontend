@@ -1,4 +1,4 @@
-export const handleApiError = (error) => {
+const handleApiError = (error) => {
   if (!error?.response) {
     return {
       type: 'server',
@@ -36,3 +36,5 @@ export const handleApiError = (error) => {
     message: 'Ocorreu um erro interno. Tente novamente mais tarde.',
   }
 }
+
+export default handleApiError
