@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPreferences, updatePreferences } from '../redux/actions/preferencesActions'
-import { useNavigate } from 'react-router-dom'
 
 export default function UpdatePreferences() {
   const dispatch = useDispatch()
@@ -17,8 +16,6 @@ export default function UpdatePreferences() {
     gender: '',
     location: '',
   })
-
-  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(fetchPreferences())
@@ -49,7 +46,6 @@ export default function UpdatePreferences() {
       age: parseInt(form.age) || 0,
     }
     dispatch(updatePreferences(data))
-    navigate(0)
   }
 
   if (loading) return <p className="p-6">Carregando...</p>
