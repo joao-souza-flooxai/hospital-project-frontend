@@ -129,7 +129,7 @@ useEffect(() => {
             {(adminPositionsError || applicationError) && (
               <ErrorModal
                 title="Falha"
-                message={adminPositionsError || applicationError}
+                message={adminPositionsError?.message || applicationError?.message || 'Erro interno no servidor. Tente novamente mais tarde.' }
                 onClose={() => dispatch(
                  adminPositionsError ?  { type: 'CLEAR_ADMIN_POSITIONS_ERRORS' } :  
                  { type: 'CLEAR_APPLICATION_ERRORS' } 
