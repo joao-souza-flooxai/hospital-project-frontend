@@ -141,7 +141,7 @@ useEffect(() => {
               <ErrorModal
                 title="Sucesso"
                 message="Operação realizada com sucesso!"
-                onClose={() => dispatch({ type: 'CLEAR_ADMIN_POSITION_SUCCESS' })}
+                onClose={() => dispatch({ type: 'CLEAR_ADMIN_POSITIONS_SUCCESS' })}
               />
             )}
 
