@@ -4,6 +4,7 @@ const initialState = {
   error: null,
   filter: '',
   page: 1,
+  success: false,
   totalPages: 1
 }
 
@@ -69,7 +70,11 @@ export default function adminPositionsReducer(state = initialState, action) {
 
   case 'ADMIN_POSITION_CREATE_FAIL':
     return { ...state, loading: false, error: action.payload }
-
+    
+  case 'CLEAR_ADMIN_POSITIONS_ERRORS':
+    return { ...state, error: null }
+  case 'CLEAR_ADMIN_POSITIONS_SUCCESS':
+    return { ...state, success: false }
 
     default:
       return state

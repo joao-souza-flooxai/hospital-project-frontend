@@ -1,7 +1,8 @@
 const initialState = {
   loading: false,
   data: null,
-  error: null
+  error: null,
+  success: false,
 };
 
 export const preferencesReducer = (state = initialState, action) => {
@@ -17,7 +18,10 @@ export const preferencesReducer = (state = initialState, action) => {
     case 'FETCH_PREFERENCES_FAILURE':
     case 'UPDATE_PREFERENCES_FAILURE':
       return { ...state, loading: false, error: action.payload };
-
+    case 'CLEAR_ERRORS':
+      return { ...state, error: null }
+    case 'CLEAR_SUCCESS':
+      return { ...state, success: false }
     default:
       return state;
   }
