@@ -41,9 +41,9 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload
       };
-    case 'CLEAR_ERRORS':
+    case 'CLEAR_LOGIN_ERRORS':
       return { ...state, error: null }
-    case 'CLEAR_SUCCESS':
+    case 'CLEAR_LOGIN_SUCCESS':
       return { ...state, success: false }
 
     default:

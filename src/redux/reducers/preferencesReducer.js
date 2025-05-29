@@ -18,9 +18,9 @@ export const preferencesReducer = (state = initialState, action) => {
     case 'FETCH_PREFERENCES_FAILURE':
     case 'UPDATE_PREFERENCES_FAILURE':
       return { ...state, loading: false, error: action.payload };
-    case 'CLEAR_ERRORS':
+    case 'CLEAR_PREFERENCES_UPDATE_SUCCESS':
       return { ...state, error: null }
-    case 'CLEAR_SUCCESS':
+    case 'CLEAR_PREFERENCES_UPDATE_ERRORS':
       return { ...state, success: false }
     default:
       return state;

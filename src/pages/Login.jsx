@@ -76,7 +76,7 @@ export default function Login() {
           <ErrorModal
             title="Falha"
             message={error}
-            onClose={() => dispatch({ type: 'CLEAR_ERRORS' })}
+            onClose={() => dispatch({ type: 'CLEAR_LOGIN_ERRORS' })}
           />
         )}
         

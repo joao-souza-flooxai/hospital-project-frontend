@@ -29,10 +29,6 @@ export const positionReducer = (state = initialState, action) => {
 
     case 'SET_PAGE':
       return { ...state, page: action.payload }
-    case 'CLEAR_ERRORS':
-      return { ...state, error: null }
-    case 'CLEAR_SUCCESS':
-      return { ...state, success: false }
     default:
       return state
   }
