@@ -5,7 +5,7 @@ import ErrorModal from './ErrorModal'
 export default function UpdatePreferences() {
   const dispatch = useDispatch()
   const { user, loading } = useSelector((state) => state.auth)
-  const{ error: errorUpdate, success:successUpdate } = useSelector((state)=>state.error);
+  const{ error: errorUpdate, success:successUpdate } = useSelector((state)=>state.preferences);
   const isAdmin = user?.role === 'admin'
 
   const [form, setForm] = useState({
