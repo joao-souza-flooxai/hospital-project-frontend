@@ -23,7 +23,7 @@ const {
 
 useEffect(() => {
   if (applicationSuccess) {
-    dispatch({ type: 'CLEAR_ADMIN_SUCCESS' })
+    dispatch({ type: 'CLEAR_APPLICATION_SUCCESS' })
     navigate('/preferences');
   }
 }, [applicationSuccess, dispatch])
@@ -141,7 +141,7 @@ useEffect(() => {
               <ErrorModal
                 title="Sucesso"
                 message="Operação realizada com sucesso!"
-                onClose={() => dispatch({ type: 'CLEAR_ADMIN_SUCCESS' })}
+                onClose={() => dispatch({ type: 'CLEAR_ADMIN_POSITION_SUCCESS' })}
               />
             )}
 
