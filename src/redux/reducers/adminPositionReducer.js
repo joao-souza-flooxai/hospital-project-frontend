@@ -70,6 +70,8 @@ export default function adminPositionsReducer(state = initialState, action) {
   case 'ADMIN_POSITION_CREATE_FAIL':
     return { ...state, loading: false, error: action.payload }
 
+  case 'ADMIN_POSITIONS_SET_ORDER':
+    return { ...state, orderBy: action.payload }
 
     default:
       return state

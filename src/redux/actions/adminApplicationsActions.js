@@ -20,7 +20,7 @@ export const fetchApplicationsAdmin = () => async (dispatch, getState) => {
         Authorization: `Bearer ${auth.token}`
       }
     })
-    console.log(res.data);
+
     dispatch({
       type: 'FETCH_APPLICATIONS_ADMIN_SUCCESS',
       payload: res.data
@@ -32,6 +32,7 @@ export const fetchApplicationsAdmin = () => async (dispatch, getState) => {
     })
   }
 }
+
 
 export const updateApplicationStatus = (applicationId, status) => async (dispatch, getState) => {
   const { auth } = getState()

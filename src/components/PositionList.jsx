@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import {
   fetchPositions,
-  setFilter as setUserFilter,
-  setPage as setUserPage
+  setUserFilter,
+  setUserPage
 } from '../redux/actions/positionActions'
 
 import {
   fetchAdminPositions,
-  setFilter as setAdminFilter,
-  setPage as setAdminPage
+  setAdminFilter,
+  setAdminPage
 } from '../redux/actions/adminPositionsActions'
 
 import CardPosition from './CardPosition'
@@ -31,8 +31,11 @@ export default function PositionList({ title, isAdmin = false }) {
 
   const { user } = useSelector((state) => state.auth)
 
-  
   const [isCreateOpen, setIsCreateOpen] = useState(false)
+
+  const [typeFilter, setTypeFilter] = useState('')
+  const [locationFilter, setLocationFilter] = useState('')
+  const [minSpotsFilter, setMinSpotsFilter] = useState('')
 
   useEffect(() => {
     const hospitalId = user?.hospital_id
@@ -40,7 +43,7 @@ export default function PositionList({ title, isAdmin = false }) {
     if (isAdmin) {
       dispatch(fetchAdminPositions({ filter, page, hospitalId }))
     } else {
-      dispatch(fetchPositions({ filter, page }))
+      dispatch(fetchPositions(filter, page ))
     }
   }, [dispatch, filter, page, isAdmin, user?.hospital_id])
 
@@ -54,10 +57,21 @@ export default function PositionList({ title, isAdmin = false }) {
     dispatch(action(newPage))
   }
 
-
   const openCreateModal = () => setIsCreateOpen(true)
 
   const closeCreateModal = () => setIsCreateOpen(false)
+
+  const filteredPositions = positions.filter((pos) => {
+    const matchesType = typeFilter ? pos.type === typeFilter : true
+    const matchesLocation = locationFilter
+      ? pos.hospital?.location?.toLowerCase().includes(locationFilter.toLowerCase())
+      : true
+    const matchesMinSpots = minSpotsFilter
+      ? pos.spots >= parseInt(minSpotsFilter)
+      : true
+
+    return matchesType && matchesLocation && matchesMinSpots
+  })
 
   return (
     <div className="p-4">
@@ -80,20 +94,49 @@ export default function PositionList({ title, isAdmin = false }) {
         position={null} 
       />
 
-      <input
-        className="border p-2 mb-4 w-full"
-        type="text"
-        placeholder="Buscar por título..."
-        value={filter}
-        onChange={handleSearch}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <input
+          className="border p-2 w-full"
+          type="text"
+          placeholder="Buscar por título..."
+          value={filter}
+          onChange={handleSearch}
+        />
+        {!isAdmin &&(<input
+          className="border p-2 w-full"
+          type="text"
+          placeholder="Filtrar por local"
+          value={locationFilter}
+          onChange={(e) => setLocationFilter(e.target.value)}
+          disabled={isAdmin}
+        />)}
+    
+        <select
+          className="border p-2 w-full"
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value)}
+        >
+          <option value="">Todos os tipos</option>
+          <option value="JOVENS">JOVENS</option>
+          <option value="IDOSOS">IDOSOS</option>
+          <option value="FAMILIAR">FAMILIAR</option>
+        </select>
+        <input
+          className="border p-2 w-full"
+          type="number"
+          placeholder="Mínimo de vagas"
+          value={minSpotsFilter}
+          onChange={(e) => setMinSpotsFilter(e.target.value)}
+          min={0}
+        />
+      </div>
 
       {loading && <p>Carregando...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       <div className="grid gap-4">
-        {positions && positions.length > 0 ? (
-          positions.map((position) => (
+        {filteredPositions && filteredPositions.length > 0 ? (
+          filteredPositions.map((position) => (
             <CardPosition
               key={position.id}
               position={position}

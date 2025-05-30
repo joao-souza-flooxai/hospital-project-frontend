@@ -34,12 +34,12 @@ export const fetchAdminPositions = ({ filter, page }) => async (dispatch) => {
   }
 }
 
-export const setFilter = (filter) => ({
+export const setAdminFilter = (filter) => ({
   type: 'ADMIN_POSITIONS_SET_FILTER',
   payload: filter
 })
 
-export const setPage = (page) => ({
+export const setAdminPage = (page) => ({
   type: 'ADMIN_POSITIONS_SET_PAGE',
   payload: page
 })

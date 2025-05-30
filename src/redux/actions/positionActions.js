@@ -2,11 +2,11 @@ import axios from 'axios'
 const VITE_API_URL = import.meta.env.VITE_API_URL
 
 export const fetchPositions = (filter = '', page = 1) => async (dispatch) => {
-  dispatch({ type: 'FETCH_POSITIONS_REQUEST' })
+    dispatch({ type: 'FETCH_POSITIONS_REQUEST' })
 
   try {
     const response = await axios.get(`${VITE_API_URL}/positions`, {
-      params: { search: filter, page }
+      params: { filter, page }
     })
 
     dispatch({
@@ -24,13 +24,19 @@ export const fetchPositions = (filter = '', page = 1) => async (dispatch) => {
   }
 }
 
-export const setFilter = (filter) => ({
+export const setUserFilter = (filter) => ({
   type: 'SET_FILTER',
   payload: filter
 })
 
-export const setPage = (page) => ({
+export const setUserPage = (page) => ({
   type: 'SET_PAGE',
   payload: page
 })
+
+export const setAdminOrder = (orderBy) => ({
+  type: 'ADMIN_POSITIONS_SET_ORDER',
+  payload: orderBy,
+})
+
 

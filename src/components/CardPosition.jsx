@@ -10,6 +10,7 @@ export default function CardPosition({ position, isAdmin = false }) {
   const dispatch = useDispatch()
   const [isEditOpen, setIsEditOpen] = useState(false)
 
+
   const handleEdit = () => {
     setIsEditOpen(true)
   }
