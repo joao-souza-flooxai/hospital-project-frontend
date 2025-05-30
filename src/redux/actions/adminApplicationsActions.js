@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { errorMessage } from '../../util/errorsMessage'
 const VITE_API_URL = import.meta.env.VITE_API_URL
 
 export const fetchApplicationsAdmin = () => async (dispatch, getState) => {
@@ -8,7 +8,7 @@ export const fetchApplicationsAdmin = () => async (dispatch, getState) => {
   if (!auth.user || !auth.token) {
     return dispatch({
       type: 'FETCH_APPLICATIONS_ADMIN_FAILURE',
-      payload: 'Usuário não autenticado'
+      payload: errorMessage({},'Erro ao buscar applications') 
     })
   }
 
@@ -28,7 +28,7 @@ export const fetchApplicationsAdmin = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: 'FETCH_APPLICATIONS_ADMIN_FAILURE',
-      payload: error.response?.data?.message || 'Erro ao buscar applications'
+      payload: errorMessage(error,'Erro ao buscar applications' ) 
     })
   }
 }
@@ -53,6 +53,9 @@ export const updateApplicationStatus = (applicationId, status) => async (dispatc
 
     dispatch(fetchApplicationsAdmin())
   } catch (error) {
-    console.error('Erro ao atualizar status da aplicação', error)
+      dispatch({
+      type: 'UPDATE_APPLICATIONS_ADMIN_FAILURE',
+      payload: errorMessage(error,'Erro atualizar applications' ) 
+    })
   }
 }

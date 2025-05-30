@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPreferences, updatePreferences } from '../redux/actions/preferencesActions'
-import { useNavigate } from 'react-router-dom'
-
+import ErrorModal from './ErrorOrSucessModal'
 export default function UpdatePreferences() {
   const dispatch = useDispatch()
-  const { user, loading, error } = useSelector((state) => state.auth)
-
+  const { user, loading } = useSelector((state) => state.auth)
+  const{ error: errorUpdate, success:successUpdate } = useSelector((state)=>state.preferences);
   const isAdmin = user?.role === 'admin'
 
   const [form, setForm] = useState({
@@ -17,8 +16,6 @@ export default function UpdatePreferences() {
     gender: '',
     location: '',
   })
-
-  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(fetchPreferences())
@@ -49,11 +46,9 @@ export default function UpdatePreferences() {
       age: parseInt(form.age) || 0,
     }
     dispatch(updatePreferences(data))
-    navigate(0)
   }
 
   if (loading) return <p className="p-6">Carregando...</p>
-  if (error) return <p className="p-6">Erro: {error}</p>
   if (!user) return null
 
   return (
@@ -160,6 +155,26 @@ export default function UpdatePreferences() {
       >
         Salvar
       </button>
+
+        {errorUpdate && (
+        <ErrorModal
+          title="Falha"
+          message={errorUpdate}
+          onClose={() => dispatch(  { type: 'CLEAR_PREFERENCES_UPDATE_ERRORS' }
+          )}
+        />
+      )}
+
+      {(successUpdate) && (
+        <ErrorModal
+          title="Sucesso"
+          message="Operação realizada com sucesso!"
+          onClose={() => dispatch({ type: 'CLEAR_PREFERENCES_UPDATE_SUCCESS' })}
+        />
+      )}
+
     </form>
+
+  
   )
 }

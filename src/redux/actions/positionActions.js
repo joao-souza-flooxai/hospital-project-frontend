@@ -1,5 +1,6 @@
 import axios from 'axios'
 const VITE_API_URL = import.meta.env.VITE_API_URL
+import { errorMessage } from "../../util/errorsMessage";
 
 export const fetchPositions = (filter = '', page = 1) => async (dispatch) => {
   dispatch({ type: 'FETCH_POSITIONS_REQUEST' })
@@ -19,7 +20,7 @@ export const fetchPositions = (filter = '', page = 1) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'FETCH_POSITIONS_FAILURE',
-      payload: error.message
+      payload: errorMessage(error, 'Erro ao exibir as vagas.' )
     })
   }
 }

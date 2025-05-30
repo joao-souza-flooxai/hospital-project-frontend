@@ -16,9 +16,13 @@ const applicationReducer = (state = initialState, action) => {
     case 'FETCH_APPLICATIONS_REQUEST':
       return { ...state, loading: true, error: null }
     case 'FETCH_APPLICATIONS_SUCCESS':
-      return { ...state, loading: false, applications: action.payload }
+      return { ...state, loading: false, applications: action.payload}
     case 'FETCH_APPLICATIONS_FAILURE':
       return { ...state, loading: false, error: action.payload }
+    case 'CLEAR_APPLICATION_ERRORS':
+      return { ...state, error: null }
+    case 'CLEAR_APPLICATION_SUCCESS':
+      return { ...state, success: false }
     default:
       return state
   }

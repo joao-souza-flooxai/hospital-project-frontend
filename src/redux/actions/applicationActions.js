@@ -1,44 +1,39 @@
 import axios from 'axios'
 const VITE_API_URL = import.meta.env.VITE_API_URL
+import { errorMessage } from '../../util/errorsMessage';
 
-export const applyToPosition = (positions_id) => async (dispatch, getState) => {
-  const { auth } = getState()
-  console.log(auth.user)
-  console.log(auth.user.token)
+export const applyToPosition = (positions_id) => (dispatch, getState) => {
+  const { auth } = getState();
   if (!auth.user || !auth.token) {
     return dispatch({
       type: 'APPLY_TO_POSITION_FAILURE',
-      payload: 'Usuário não autenticado'
-    })
+      payload: errorMessage({},'Usuário não autenticado' )
+    });
   }
 
-  dispatch({ type: 'APPLY_TO_POSITION_REQUEST' })
+  dispatch({ type: 'APPLY_TO_POSITION_REQUEST' });
 
-  try {
-    await axios.post(
+  return axios
+    .post(
       `${VITE_API_URL}/user/application`,
-      {
-        positions_id
-      },
+      { positions_id },
       {
         headers: {
-          Authorization: `Bearer ${auth.token}`
-        }
+          Authorization: `Bearer ${auth.token}`,
+        },
       }
     )
-
-    dispatch({ type: 'APPLY_TO_POSITION_SUCCESS' })
-  } catch (error) {
-    dispatch({
-      type: 'APPLY_TO_POSITION_FAILURE',
-      payload:
-        error.response?.data?.message ||
-        'Erro ao se inscrever na vaga. Tente novamente.'
+    .then(() => {
+      dispatch({ type: 'APPLY_TO_POSITION_SUCCESS' });
     })
-  }
-
-
-}
+    .catch((error) => {
+      dispatch({
+        type: 'APPLY_TO_POSITION_FAILURE',
+        payload:
+          errorMessage(error,' Erro ao se inscrever na vaga. Tente novamente.' )
+      });
+    });
+};
 
 export const fetchUserApplications = () => async (dispatch, getState) => {
   const { auth } = getState()
@@ -46,7 +41,7 @@ export const fetchUserApplications = () => async (dispatch, getState) => {
   if (!auth.user || !auth.token) {
     return dispatch({
       type: 'FETCH_APPLICATIONS_FAILURE',
-      payload: 'Usuário não autenticado'
+      payload:  errorMessage({},'Usuário não autenticado' ) 
     })
   }
 
@@ -67,8 +62,8 @@ export const fetchUserApplications = () => async (dispatch, getState) => {
     dispatch({
       type: 'FETCH_APPLICATIONS_FAILURE',
       payload:
-        error.response?.data?.message ||
-        'Erro ao buscar inscrições. Tente novamente.'
+       errorMessage(error, 'Erro ao buscar inscrições. Tente novamente.' )
+       
     })
   }
 
