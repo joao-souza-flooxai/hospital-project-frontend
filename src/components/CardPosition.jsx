@@ -2,13 +2,34 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { applyToPosition } from '../redux/actions/applicationActions'
 import { deletePosition } from '../redux/actions/adminPositionsActions'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CreateOrEditPositionModal from './CreateOrEditPositionModal';
+import ErrorModal from './ErrorOrSucessModal';
 
 export default function CardPosition({ position, isAdmin = false }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const {
+  error: applicationError,
+  success: applicationSuccess,
+} = useSelector((state) => state.application);
+
+const {
+  error: adminPositionsError,
+  success: adminPositionsSuccess,
+} = useSelector((state) => state.adminPositions);
+
+useEffect(() => {
+  if (applicationSuccess) {
+    dispatch({ type: 'CLEAR_APPLICATION_SUCCESS' })
+    navigate('/preferences');
+  }
+}, [applicationSuccess, dispatch])
+
+
+
 
 
   const handleEdit = () => {
@@ -37,7 +58,7 @@ export default function CardPosition({ position, isAdmin = false }) {
     if (!confirmApply) return
 
     dispatch(applyToPosition(position.id))
-    window.location.reload();
+   
   }
 
   const handleDelete = () => {
@@ -105,6 +126,26 @@ export default function CardPosition({ position, isAdmin = false }) {
               onClose={handleCloseModal}
               position={position}
             />}
+
+            {(adminPositionsError || applicationError) && (
+              <ErrorModal
+                title="Falha" 
+                message={adminPositionsError || applicationError }
+                onClose={() => dispatch(
+                 adminPositionsError ?  { type: 'CLEAR_ADMIN_POSITIONS_ERRORS' } :  
+                 { type: 'CLEAR_APPLICATION_ERRORS' } 
+                )}
+              />
+            )}
+
+            {(adminPositionsSuccess) && (
+              <ErrorModal
+                title="Sucesso"
+                message="Operação realizada com sucesso!"
+                onClose={() => dispatch({ type: 'CLEAR_ADMIN_POSITIONS_SUCCESS' })}
+              />
+            )}
+
 
         </div>
     </div>

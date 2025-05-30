@@ -1,6 +1,6 @@
 import axios from 'axios'
 const VITE_API_URL = import.meta.env.VITE_API_URL
-
+import { errorMessage } from "../../util/errorsMessage";
 
 export const fetchPreferences = () => async (dispatch, getState) => {
   dispatch({ type: "FETCH_PREFERENCES_REQUEST" });
@@ -23,7 +23,7 @@ export const fetchPreferences = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: "FETCH_PREFERENCES_FAILURE",
-      payload: error.response?.data?.message || error.message
+      payload: errorMessage(error, 'Erro ao carregar os seus dados de perfil!' )
     });
   }
 };
@@ -48,7 +48,7 @@ export const updatePreferences = (data) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: "UPDATE_PREFERENCES_FAILURE",
-      payload: error.response?.data?.message || error.message
+      payload: errorMessage(error, 'Erro ao atualizar as suas preferências!' )
     });
   }
 };

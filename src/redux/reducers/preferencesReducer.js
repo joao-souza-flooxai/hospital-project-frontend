@@ -1,7 +1,8 @@
 const initialState = {
   loading: false,
   data: null,
-  error: null
+  error: null,
+  success: false,
 };
 
 export const preferencesReducer = (state = initialState, action) => {
@@ -11,13 +12,17 @@ export const preferencesReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: null };
 
     case 'FETCH_PREFERENCES_SUCCESS':
-    case 'UPDATE_PREFERENCES_SUCCESS':
-      return { ...state, loading: false, data: action.payload };
+      return { ...state, loading: false, data: action.payload};
 
     case 'FETCH_PREFERENCES_FAILURE':
     case 'UPDATE_PREFERENCES_FAILURE':
       return { ...state, loading: false, error: action.payload };
-
+    case 'CLEAR_PREFERENCES_UPDATE_SUCCESS':
+      return { ...state, success: false }
+    case 'CLEAR_PREFERENCES_UPDATE_ERRORS':
+      return { ...state, error: null }
+    case 'UPDATE_PREFERENCES_SUCCESS':
+      return { ...state, loading: false, data: action.payload, success: true};
     default:
       return state;
   }

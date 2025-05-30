@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { errorMessage } from '../../util/errorsMessage'
 const VITE_API_URL = import.meta.env.VITE_API_URL
 
 export const fetchAdminPositions = ({ filter, page }) => async (dispatch) => {
@@ -29,7 +29,7 @@ export const fetchAdminPositions = ({ filter, page }) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'ADMIN_POSITIONS_FAIL',
-      payload: error.response?.data?.message || error.message
+      payload: errorMessage(error,'Erro ao buscar positions.' ) 
     })
   }
 }
@@ -63,7 +63,7 @@ export const deletePosition = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'ADMIN_POSITION_DELETE_FAIL',
-      payload: error.response?.data?.message || error.message
+      payload: errorMessage(error,'Erro ao deletar position.' ) 
     })
   }
   
@@ -92,7 +92,7 @@ export const createPosition = (positionData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'ADMIN_POSITION_CREATE_FAIL',
-      payload: error.response?.data?.message || error.message
+      payload: errorMessage(error,'Erro ao criar uma position.' ) 
     })
   }
 }
@@ -120,7 +120,7 @@ export const updatePosition = (id, positionData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'ADMIN_POSITION_UPDATE_FAIL',
-      payload: error.response?.data?.message || error.message
+      payload: errorMessage(error,'Erro atualizar ao atualizar a position.' ) 
     })
   }
 }

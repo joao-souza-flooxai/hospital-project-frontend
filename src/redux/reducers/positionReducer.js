@@ -4,7 +4,8 @@ const initialState = {
   error: null,
   filter: '',
   page: 1,
-  totalPages: 1
+  totalPages: 1,
+  success: false,
 }
 
 export const positionReducer = (state = initialState, action) => {
@@ -17,7 +18,7 @@ export const positionReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         positions: action.payload.positions,
-        totalPages: action.payload.totalPages
+        totalPages: action.payload.totalPages,
       }
 
     case 'FETCH_POSITIONS_FAILURE':
@@ -28,7 +29,6 @@ export const positionReducer = (state = initialState, action) => {
 
     case 'SET_PAGE':
       return { ...state, page: action.payload }
-
     default:
       return state
   }

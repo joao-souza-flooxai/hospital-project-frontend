@@ -2,7 +2,11 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 export default function RequireAuth({ children, role }) {
-  const { user } = useSelector((state) => state.auth)
+  const { user, loading } = useSelector((state) => state.auth)
+
+  if (loading) {
+    return <div>Loading...</div> // Ou um spinner estilizado
+  }
 
   if (!user) {
     return <Navigate to="/login" />

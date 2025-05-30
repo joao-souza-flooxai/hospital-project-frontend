@@ -5,7 +5,8 @@ const initialState = {
   user: userFromStorage || null,
   token: tokenFromStorage || null,
   loading: false,
-  error: null
+  error: null,
+  success: false,
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -40,6 +41,10 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload
       };
+    case 'CLEAR_LOGIN_ERRORS':
+      return { ...state, error: null }
+    case 'CLEAR_LOGIN_SUCCESS':
+      return { ...state, success: false }
 
     default:
       return state

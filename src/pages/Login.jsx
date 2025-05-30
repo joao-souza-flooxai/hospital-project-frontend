@@ -2,16 +2,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { login } from '../redux/actions/authActions'
-
+import ErrorModal from '../components/ErrorOrSucessModal'
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('user')
-
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { loading, error, user } = useSelector((state) => state.auth)
+  const { loading, error,user } = useSelector((state) => state.auth)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -64,8 +63,6 @@ export default function Login() {
           <option value="admin">Admin</option>
         </select>
 
-        {error && <p className="text-red-500 mb-2">{error}</p>}
-
         <button
           type="submit"
           disabled={loading}
@@ -74,6 +71,15 @@ export default function Login() {
           {loading ? 'Entrando...' : 'Entrar'}
         </button>
       </form>
+
+           {error && (
+          <ErrorModal
+            title="Falha"
+            message={error}
+            onClose={() => dispatch({ type: 'CLEAR_LOGIN_ERRORS' })}
+          />
+        )}
+        
     </div>
   )
 }
