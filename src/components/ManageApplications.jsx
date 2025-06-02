@@ -32,7 +32,6 @@ export default function ManageApplications() {
   return (
     <div className="p-4">
 
-      {/* 🔍 Input de busca */}
       <div className="mb-4">
         <input
           type="text"

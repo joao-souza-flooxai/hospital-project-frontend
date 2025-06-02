@@ -29,9 +29,6 @@ useEffect(() => {
 }, [applicationSuccess, dispatch])
 
 
-
-
-
   const handleEdit = () => {
     setIsEditOpen(true)
   }
@@ -83,10 +80,20 @@ useEffect(() => {
       </div>
 
       <div className="p-4">
-        <p className="mt-2 font-medium">
-          Hospital: {position?.hospital?.name}
-          {!isAdmin && position?.hospital?.location ? `, ${position.hospital.location}` : ''}
-        </p>
+       <div className="flex justify-between items-center mt-2">
+          <p className="font-medium">
+            Hospital: {position?.hospital?.name}
+            {!isAdmin && position?.hospital?.location ? `, ${position.hospital.location}` : ''}
+          </p>
+          {position.finished_at && (
+            <p className="text-sm text-gray-600">
+              Expira em:{' '}
+              {new Date(position.finished_at).toLocaleDateString('pt-BR', {
+                timeZone: 'UTC',
+              })}
+            </p>
+          )}
+        </div>
         <p className="mb-2 text-gray-700">{position.description || "Sem descrição."}</p>
 
         {isAdmin && (

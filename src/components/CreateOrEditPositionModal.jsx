@@ -6,13 +6,16 @@ export default function CreateOrEditPositionModal({ isOpen, onClose, position })
   const dispatch = useDispatch()
 
   const { loading, error } = useSelector((state) => state.adminPositions)
-
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const minDate = tomorrow.toISOString().split('T')[0]
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     type: 'IDOSOS',
     spots: 1,
     status: 'ACTIVE',
+    finished_at: ''
   })
 
   useEffect(() => {
@@ -23,6 +26,7 @@ export default function CreateOrEditPositionModal({ isOpen, onClose, position })
         type: position.type,
         spots: position.spots,
         status: position.status,
+        finished_at: position.finished_at ? position.finished_at.split('T')[0] : '',
       })
     } else {
       setFormData({
@@ -31,6 +35,7 @@ export default function CreateOrEditPositionModal({ isOpen, onClose, position })
         type: 'IDOSOS',
         spots: 1,
         status: 'ACTIVE',
+        finished_at: '',
       })
     }
   }, [position, isOpen])
@@ -46,9 +51,9 @@ export default function CreateOrEditPositionModal({ isOpen, onClose, position })
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const payload = {
-      ...formData,
-    }
+   const payload = {
+    ...formData,
+  }
 
     if (position) {
       dispatch(updatePosition(position.id, payload))
@@ -119,6 +124,19 @@ export default function CreateOrEditPositionModal({ isOpen, onClose, position })
             <option value='PENDING'>PENDING</option>
             <option value='CLOSED'>CLOSED</option>
           </select>
+
+          <label className="flex flex-col">
+              Data de Expiração:
+              <input
+                name="finished_at"
+                type="date"
+                value={formData.finished_at}
+                onChange={handleChange}
+                className="border p-2 rounded"
+                min={minDate}
+                required
+              />
+            </label>
 
           <div className='flex justify-end gap-2 mt-4'>
             <button

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { errorMessage } from '../../util/errorsMessage'
 const VITE_API_URL = import.meta.env.VITE_API_URL
 
-export const fetchAdminPositions = ({ filter, page }) => async (dispatch) => {
+export const fetchAdminPositions = ({ filter, page, isExpired }) => async (dispatch) => {
   try {
     dispatch({ type: 'ADMIN_POSITIONS_REQUEST' })
 
@@ -11,6 +11,7 @@ export const fetchAdminPositions = ({ filter, page }) => async (dispatch) => {
 
     if (filter) params.filter = filter
     if (page) params.page = page
+    if (isExpired) params.isExpired = isExpired
 
     const { data } = await axios.get(`${VITE_API_URL}/admin/dashboard/positions`, {
       headers: {

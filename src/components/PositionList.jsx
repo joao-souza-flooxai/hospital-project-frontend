@@ -16,7 +16,7 @@ import {
 import CardPosition from './CardPosition'
 import CreateOrEditPositionModal from './CreateOrEditPositionModal' 
 
-export default function PositionList({ title, isAdmin = false }) {
+export default function PositionList({ title, isAdmin = false, isExpired = false  }) {
   const dispatch = useDispatch()
   const {
     positions,
@@ -36,16 +36,17 @@ export default function PositionList({ title, isAdmin = false }) {
   const [typeFilter, setTypeFilter] = useState('')
   const [locationFilter, setLocationFilter] = useState('')
   const [minSpotsFilter, setMinSpotsFilter] = useState('')
+  const [dateOrder, setDateOrder] = useState('')
 
   useEffect(() => {
     const hospitalId = user?.hospital_id
 
     if (isAdmin) {
-      dispatch(fetchAdminPositions({ filter, page, hospitalId }))
+    dispatch(fetchAdminPositions({ filter, page, hospitalId, isExpired }))
     } else {
-      dispatch(fetchPositions(filter, page ))
+      dispatch(fetchPositions(filter, page, isExpired ))
     }
-  }, [dispatch, filter, page, isAdmin, user?.hospital_id])
+  }, [dispatch, filter, page, isAdmin, user?.hospital_id, isExpired])
 
   const handleSearch = (e) => {
     const action = isAdmin ? setAdminFilter : setUserFilter
@@ -73,11 +74,23 @@ export default function PositionList({ title, isAdmin = false }) {
     return matchesType && matchesLocation && matchesMinSpots
   })
 
+  const sortedPositions = [...filteredPositions].sort((a, b) => {
+    if (dateOrder === 'recent') {
+      return new Date(b.created_at) - new Date(a.created_at)
+    }
+    if (dateOrder === 'expiring') {
+      const dateA = a.finished_at ? new Date(a.finished_at) : new Date(8640000000000000)
+      const dateB = b.finished_at ? new Date(b.finished_at) : new Date(8640000000000000)
+      return dateA - dateB
+    }
+    return 0
+  })
+
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">{title}</h1>
 
-      {isAdmin && (
+      {(isAdmin && !isExpired) && (
         <div className="mb-4">
           <button
             onClick={openCreateModal}
@@ -94,25 +107,33 @@ export default function PositionList({ title, isAdmin = false }) {
         position={null} 
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+     <div className="mb-4">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <input
+        className="border p-2 w-full"
+        type="text"
+        placeholder="Buscar por título..."
+        value={filter}
+        onChange={handleSearch}
+      />
+      {!isAdmin && (
         <input
-          className="border p-2 w-full"
-          type="text"
-          placeholder="Buscar por título..."
-          value={filter}
-          onChange={handleSearch}
-        />
-        {!isAdmin &&(<input
           className="border p-2 w-full"
           type="text"
           placeholder="Filtrar por local"
           value={locationFilter}
           onChange={(e) => setLocationFilter(e.target.value)}
           disabled={isAdmin}
-        />)}
-    
+        />
+      )}
+    </div>
+
+
+   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex justify-around items-center">
         <select
-          className="border p-2 w-full"
+          className="border p-2"
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
         >
@@ -121,8 +142,24 @@ export default function PositionList({ title, isAdmin = false }) {
           <option value="IDOSOS">IDOSOS</option>
           <option value="FAMILIAR">FAMILIAR</option>
         </select>
+      </div>
+
+
+      <div className="flex justify-around items-center">
+        <select
+          className="border p-2 "
+          value={dateOrder}
+          onChange={(e) => setDateOrder(e.target.value)}
+        >
+          <option value="">Data</option>
+          <option value="recent">Mais recentes</option>
+          {(isAdmin && !isExpired) && (<option value="expiring">Expirando em breve</option>)}
+        </select>
+      </div>
+
+      <div className="flex justify-around items-center">
         <input
-          className="border p-2 w-full"
+          className="border p-2"
           type="number"
           placeholder="Mínimo de vagas"
           value={minSpotsFilter}
@@ -130,13 +167,16 @@ export default function PositionList({ title, isAdmin = false }) {
           min={0}
         />
       </div>
+  </div>
+
+  </div>
 
       {loading && <p>Carregando...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       <div className="grid gap-4">
-        {filteredPositions && filteredPositions.length > 0 ? (
-          filteredPositions.map((position) => (
+        {sortedPositions && sortedPositions.length > 0 ? (
+          sortedPositions.map((position) => (  
             <CardPosition
               key={position.id}
               position={position}
@@ -147,6 +187,7 @@ export default function PositionList({ title, isAdmin = false }) {
           <span>Sem vagas no momento.</span>
         )}
       </div>
+
 
       <div className="flex justify-center gap-4 mt-6">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (

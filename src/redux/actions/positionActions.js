@@ -2,12 +2,12 @@ import axios from 'axios'
 const VITE_API_URL = import.meta.env.VITE_API_URL
 import { errorMessage } from "../../util/errorsMessage";
 
-export const fetchPositions = (filter = '', page = 1) => async (dispatch) => {
+export const fetchPositions = (filter = '', page = 1, isExpired) => async (dispatch) => {
     dispatch({ type: 'FETCH_POSITIONS_REQUEST' })
 
   try {
     const response = await axios.get(`${VITE_API_URL}/positions`, {
-      params: { filter, page }
+      params: { filter, page, isExpired }
     })
 
     dispatch({
