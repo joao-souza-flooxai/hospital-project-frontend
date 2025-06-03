@@ -4,12 +4,11 @@ import { errorMessage } from "../../util/errorsMessage";
 
 export const fetchPositions = (filter = '', page = 1, isExpired) => async (dispatch) => {
     dispatch({ type: 'FETCH_POSITIONS_REQUEST' })
-
   try {
     const response = await axios.get(`${VITE_API_URL}/positions`, {
       params: { filter, page, isExpired }
     })
-
+    
     dispatch({
       type: 'FETCH_POSITIONS_SUCCESS',
       payload: {
@@ -17,6 +16,8 @@ export const fetchPositions = (filter = '', page = 1, isExpired) => async (dispa
         totalPages: response.data.totalPages
       }
     })
+
+    console.log(response);
   } catch (error) {
     dispatch({
       type: 'FETCH_POSITIONS_FAILURE',

@@ -13,7 +13,7 @@ export default function CreateOrEditPositionModal({ isOpen, onClose, position })
     title: '',
     description: '',
     type: 'IDOSOS',
-    spots: 1,
+    spots: 0,
     status: 'ACTIVE',
     finished_at: ''
   })
@@ -111,7 +111,7 @@ export default function CreateOrEditPositionModal({ isOpen, onClose, position })
             value={formData.spots}
             onChange={handleChange}
             className='border p-2 rounded'
-            min={1}
+            min={0}
           />
 
           <select

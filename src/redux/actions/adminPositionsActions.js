@@ -118,6 +118,8 @@ export const updatePosition = (id, positionData) => async (dispatch) => {
       type: 'ADMIN_POSITION_UPDATE_SUCCESS',
       payload: data
     })
+    
+
   } catch (error) {
     dispatch({
       type: 'ADMIN_POSITION_UPDATE_FAIL',

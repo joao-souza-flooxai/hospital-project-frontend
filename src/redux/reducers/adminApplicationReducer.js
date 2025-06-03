@@ -10,7 +10,11 @@ const adminApplicationsReducer = (state = initialState, action) => {
     case 'FETCH_APPLICATIONS_ADMIN_REQUEST':
       return { ...state, loading: true, error: null }
     case 'FETCH_APPLICATIONS_ADMIN_SUCCESS':
-      return { ...state, loading: false, applications: action.payload }
+          return {
+        ...state,
+        loading: false,
+        applications: action.payload
+      }
     case 'FETCH_APPLICATIONS_ADMIN_FAILURE':
     case 'UPDATE_APPLICATIONS_ADMIN_FAILURE':
       return { ...state, loading: false, error: action.payload }
@@ -18,6 +22,15 @@ const adminApplicationsReducer = (state = initialState, action) => {
       return { ...state, error: null }
     case 'CLEAR_APPLICATIONS_ADMIN_SUCCESS':
       return { ...state, success: false }
+    case 'UPDATE_APPLICATIONS_ADMIN_SUCCESS':
+      return {
+        ...state,
+        applications: state.applications.map((app) =>
+          app.id === action.payload.id ? action.payload : app
+        ),
+        success: true,
+        loading: false,
+      }
     default:
       return state
   }

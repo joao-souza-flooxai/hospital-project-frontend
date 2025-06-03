@@ -7,7 +7,7 @@ export const applyToPosition = (positions_id) => (dispatch, getState) => {
   if (!auth.user || !auth.token) {
     return dispatch({
       type: 'APPLY_TO_POSITION_FAILURE',
-      payload: errorMessage({},'Usuário não autenticado' )
+      payload: errorMessage({}, 'Usuário não autenticado'),
     });
   }
 
@@ -23,17 +23,28 @@ export const applyToPosition = (positions_id) => (dispatch, getState) => {
         },
       }
     )
-    .then(() => {
-      dispatch({ type: 'APPLY_TO_POSITION_SUCCESS' });
+    .then((res) => {
+      const { application, position } = res.data;
+
+      dispatch({
+        type: 'APPLY_TO_POSITION_SUCCESS',
+        payload: { application },
+      });
+
+      dispatch({
+        type: 'UPDATE_POSITION',
+        payload: position,
+      });
+
     })
     .catch((error) => {
       dispatch({
         type: 'APPLY_TO_POSITION_FAILURE',
-        payload:
-          errorMessage(error,' Erro ao se inscrever na vaga. Tente novamente.' )
+        payload: errorMessage(error, 'Erro ao se inscrever na vaga. Tente novamente.'),
       });
     });
 };
+
 
 export const fetchUserApplications = () => async (dispatch, getState) => {
   const { auth } = getState()

@@ -5,7 +5,6 @@ import { fetchApplicationsAdmin, updateApplicationStatus } from '../redux/action
 export default function ManageApplications() {
   const dispatch = useDispatch()
   const { applications, loading, error } = useSelector(state => state.adminApplications)
-
   const [emailFilter, setEmailFilter] = useState('')
 
   useEffect(() => {
