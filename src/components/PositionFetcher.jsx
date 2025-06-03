@@ -70,7 +70,7 @@ export default function PositionFetcher({ isAdmin = false }) {
   if (isAdmin) {
     return (
       <>
-        <Collapse title="Vagas Abertas do seu Hospital" isItToBeOpen={true}>
+        <Collapse title="Vagas Abertas do seu Hospital" isItToBeOpen={false}>
           <PositionList
             positions={openPositions}
             loading={loading}
@@ -82,6 +82,7 @@ export default function PositionFetcher({ isAdmin = false }) {
             onPageChange={handlePageChange}
             isAdmin={true}
             isExpired={false}
+            isCreating={true}
           />
         </Collapse>
 

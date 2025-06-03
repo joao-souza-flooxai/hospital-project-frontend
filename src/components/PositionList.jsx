@@ -14,6 +14,7 @@ export default function PositionList({
   // onPageChange,
   isAdmin = false,
   isExpired = false,
+  isCreating = false,
 }) {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [typeFilter, setTypeFilter] = useState('')
@@ -53,7 +54,7 @@ export default function PositionList({
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">{title}</h1>
 
-      {(isAdmin && !isExpired) && (
+      {(isAdmin && isCreating) && (
         <div className="mb-4">
           <button
             onClick={() => setIsCreateOpen(true)}
