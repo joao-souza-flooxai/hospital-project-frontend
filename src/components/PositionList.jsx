@@ -61,7 +61,7 @@ export default function PositionList({ title, isAdmin = false }) {
 
   const closeCreateModal = () => setIsCreateOpen(false)
 
-  const filteredPositions = positions.filter((pos) => {
+  const filteredPositions = positions?.filter((pos) => {
     const matchesType = typeFilter ? pos.type === typeFilter : true
     const matchesLocation = locationFilter
       ? pos.hospital?.location?.toLowerCase().includes(locationFilter.toLowerCase())

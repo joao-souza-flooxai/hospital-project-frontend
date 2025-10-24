@@ -21,7 +21,7 @@ export default function MySubscriptions() {
   return (
     <div className="mt-10 max-w-3xl w-full">
       <div className="space-y-4">
-        {applications.map((app) => (
+        {(Array.isArray(applications) ? applications : []).map((app) => (
           <div
             key={app.id}
             className="border rounded p-4 flex flex-col md:flex-row justify-between"
