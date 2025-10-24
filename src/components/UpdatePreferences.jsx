@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPreferences, updatePreferences } from '../redux/actions/preferencesActions'
-import ErrorModal from './ErrorOrSucessModal'
+import ErrorModal from './ErrorOrSucessModal.jsx'
 export default function UpdatePreferences() {
   const dispatch = useDispatch()
   const { user, loading } = useSelector((state) => state.auth)

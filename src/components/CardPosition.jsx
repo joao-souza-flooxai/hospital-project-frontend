@@ -4,7 +4,7 @@ import { applyToPosition } from '../redux/actions/applicationActions'
 import { deletePosition } from '../redux/actions/adminPositionsActions'
 import { useState, useEffect } from 'react';
 import CreateOrEditPositionModal from './CreateOrEditPositionModal';
-import ErrorModal from './ErrorOrSucessModal';
+import ErrorModal from './ErrorOrSucessModal.jsx';
 
 export default function CardPosition({ position, isAdmin = false }) {
   const navigate = useNavigate()
