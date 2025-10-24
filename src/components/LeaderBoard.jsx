@@ -29,7 +29,7 @@ export default function LeaderBoard({ limit = 5 }) {
           </tr>
         </thead>
         <tbody>
-          {data?.map((user, index) => (
+          {(Array.isArray(data) ? data : []).map((user, index) => (
             <tr key={user.id} className="text-center">
               <td className="p-2 border">{index + 1}</td>
               <td className="p-2 border">{user.name}</td>
