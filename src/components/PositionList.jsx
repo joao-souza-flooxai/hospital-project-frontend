@@ -23,7 +23,7 @@ export default function PositionList({
   const [dateOrder, setDateOrder] = useState('')
   const [hospitalFilter, setHospitalFilter] = useState('')
 
-  const filteredPositions = positions.filter((pos) => {
+  const filteredPositions = positions?.filter((pos) => {
     const matchesType = typeFilter ? pos.type === typeFilter : true
     const matchesLocation = locationFilter
       ? pos.hospital?.location?.toLowerCase().includes(locationFilter.toLowerCase())
