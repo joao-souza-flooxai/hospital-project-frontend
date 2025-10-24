@@ -39,7 +39,7 @@ Criar uma plataforma onde hospitais possam receber voluntários para ajudar em d
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.7-blue?logo=tailwindcss&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript&logoColor=white)
 
-- **Deploy:** [Frontend Online]([https://hospital-project-frontend-production.up.railway.app])
+- **Deploy:** [Frontend Online](https://hospital-project-frontend-production.up.railway.app)
 - **Estrutura:**
   src/
   ├─ components/ # Componentes reutilizáveis
