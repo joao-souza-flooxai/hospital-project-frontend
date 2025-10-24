@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { applyToPosition } from '../redux/actions/applicationActions'
 import { deletePosition } from '../redux/actions/adminPositionsActions'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CreateOrEditPositionModal from './CreateOrEditPositionModal';
 import ErrorModal from './ErrorOrSucessModal';
 
@@ -20,16 +20,6 @@ const {
   error: adminPositionsError,
   success: adminPositionsSuccess,
 } = useSelector((state) => state.adminPositions);
-
-useEffect(() => {
-  if (applicationSuccess) {
-    dispatch({ type: 'CLEAR_APPLICATION_SUCCESS' })
-    navigate('/preferences');
-  }
-}, [applicationSuccess, dispatch])
-
-
-
 
 
   const handleEdit = () => {
@@ -75,7 +65,11 @@ useEffect(() => {
     <div className="border rounded shadow hover:shadow-md transition bg-white">
       <div className="flex justify-between items-center bg-blue-600 text-white rounded-t px-4 py-3 font-semibold">
         <h2 className="text-xl">
-          {position.title} {position.spots ? `- Vagas: ${position.spots}` : ''}
+          {position.title} - {position.spots ? 
+                            ` Vagas: ${position.spots}` : 
+                              <span className="bg-red-600 px-2 py-0.5 rounded">
+                             Vagas encerradas
+                              </span>}
         </h2>
         <span className="bg-blue-400 border border-blue-600 px-2 py-0.5 rounded">
           {position.type}
@@ -83,10 +77,20 @@ useEffect(() => {
       </div>
 
       <div className="p-4">
-        <p className="mt-2 font-medium">
-          Hospital: {position?.hospital?.name}
-          {!isAdmin && position?.hospital?.location ? `, ${position.hospital.location}` : ''}
-        </p>
+       <div className="flex justify-between items-center mt-2">
+          <p className="font-medium">
+            Hospital: {position?.hospital?.name}
+            {!isAdmin && position?.hospital?.location ? `, ${position.hospital.location}` : ''}
+          </p>
+          {position.finished_at && (
+            <p className="text-sm text-gray-600">
+              Expira em:{' '}
+              {new Date(position.finished_at).toLocaleDateString('pt-BR', {
+                timeZone: 'UTC',
+              })}
+            </p>
+          )}
+        </div>
         <p className="mb-2 text-gray-700">{position.description || "Sem descrição."}</p>
 
         {isAdmin && (
@@ -138,11 +142,13 @@ useEffect(() => {
               />
             )}
 
-            {(adminPositionsSuccess) && (
+            {(adminPositionsSuccess || applicationSuccess) && (
               <ErrorModal
                 title="Sucesso"
-                message="Operação realizada com sucesso!"
-                onClose={() => dispatch({ type: 'CLEAR_ADMIN_POSITIONS_SUCCESS' })}
+                message= {adminPositionsSuccess ? "Operação realizada com sucesso!": "Inscrição realizada! Verfique o menu 'Preferências'."}
+                onClose={() => dispatch(
+                   adminPositionsSuccess ? { type: 'CLEAR_ADMIN_POSITIONS_SUCCESS' }:
+                   { type: 'CLEAR_APPLICATION_SUCCESS' })}
               />
             )}
 

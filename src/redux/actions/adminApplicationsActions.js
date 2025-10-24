@@ -38,11 +38,15 @@ export const updateApplicationStatus = (applicationId, status) => async (dispatc
   const { auth } = getState()
 
   if (!auth.user || !auth.token) {
+    dispatch({
+      type: 'UPDATE_APPLICATIONS_ADMIN_FAILURE',
+      payload: 'Usuário não autenticado'
+    })
     return
   }
 
   try {
-    await axios.patch(
+    const response = await axios.patch(
       `${VITE_API_URL}/admin/dashboard/applications/${applicationId}`,
       { status },
       {
@@ -52,11 +56,34 @@ export const updateApplicationStatus = (applicationId, status) => async (dispatc
       }
     )
 
-    dispatch(fetchApplicationsAdmin())
-  } catch (error) {
+    console.log('Response:', response.data)
+
+    const { application, position } = response.data.data
+
+    if (!application) {
+      throw new Error('Application não retornado pela API')
+    }
+
+    dispatch({
+      type: 'UPDATE_APPLICATIONS_ADMIN_SUCCESS',
+      payload: application
+    })
+
+    if (application.status === 'CLOSED' && position) {
+      console.log("oi veio aqui")
       dispatch({
+        type: 'ADMIN_REJECTED_APPLICATION_UPDATE_DASHBOARD_POSITION',
+        payload: position
+      })
+    }
+
+  } catch (error) {
+    console.error('Erro no updateApplicationStatus:', error.response || error.message || error)
+
+    dispatch({
       type: 'UPDATE_APPLICATIONS_ADMIN_FAILURE',
-      payload: errorMessage(error,'Erro atualizar applications' ) 
+      payload: errorMessage(error, 'Erro ao atualizar application')
     })
   }
 }
+
