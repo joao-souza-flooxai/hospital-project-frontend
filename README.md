@@ -1,12 +1,56 @@
-# React + Vite
+# Voluntários para Hospitais 🏥
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma para conectar voluntários a hospitais, permitindo cadastro, candidatura a tarefas e acompanhamento de pontuação.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Objetivo 🎯
 
-## Expanding the ESLint configuration
+Criar uma plataforma onde hospitais possam receber voluntários para ajudar em diversas tarefas.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Funcionalidades ✨
+
+### Hospitais / Admins 🏨
+- Gerenciar usuários internos (admins);
+- Apenas admins podem criar novos usuários com e-mail e senha;
+- Login de usuários internos;
+- Criar pedidos de voluntários (vagas) com título, descrição e tipo de vaga;
+- Aprovar ou rejeitar candidaturas de voluntários.
+
+### Voluntários 🙋‍♂️🙋‍♀️
+- Visualizar vagas públicas (sem login);
+- Cadastro na plataforma;
+- Candidatar-se às vagas disponíveis;
+- Acumular pontos após conclusão de tarefas.
+
+### Auditoria & Gamificação 📊
+- Registro de todas as candidaturas e ações dos admins;
+- Leaderboard com ranking dos voluntários baseado na pontuação acumulada.
+
+---
+
+## Arquitetura do Projeto 🏗️
+
+### Frontend ⚛️
+![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-6.3.5-brightgreen?logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.7-blue?logo=tailwindcss&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript&logoColor=white)
+
+- **Deploy:** [Frontend Online](COLOQUE_AQUI_O_URL_DE_DEPLOY)
+- **Estrutura:**
+  src/
+  ├─ components/ # Componentes reutilizáveis
+  ├─ pages/ # Páginas da aplicação
+  ├─ redux/ # Actions, reducers e store
+  └─ App.jsx # Componente raiz
+
+- **Scripts:**
+
+```bash
+npm run dev     # Rodar ambiente de desenvolvimento
+npm run build   # Build para produção
+npm run preview # Preview da build
+npm run lint    # Rodar lint
