@@ -84,7 +84,13 @@ export default function adminPositionsReducer(state = initialState, action) {
   case 'CLEAR_ADMIN_POSITIONS_SUCCESS':
     return { ...state, success: false }
 
-
+  case 'ADMIN_REJECTED_APPLICATION_UPDATE_DASHBOARD_POSITION':
+    return { 
+          loading: false,
+          positions: state.positions.map((pos) =>
+          pos.id === action.payload.id ? action.payload : pos,
+        
+        ),}
     default:
       return state
   }

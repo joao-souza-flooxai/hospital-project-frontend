@@ -1,65 +1,27 @@
-import { useEffect, useState } from 'react' 
-import { useDispatch, useSelector } from 'react-redux'
-
-import {
-  fetchPositions,
-  setUserFilter,
-  setUserPage
-} from '../redux/actions/positionActions'
-
-import {
-  fetchAdminPositions,
-  setAdminFilter,
-  setAdminPage
-} from '../redux/actions/adminPositionsActions'
-
+import { useState } from 'react'
 import CardPosition from './CardPosition'
-import CreateOrEditPositionModal from './CreateOrEditPositionModal' 
+import CreateOrEditPositionModal from './CreateOrEditPositionModal'
 
-export default function PositionList({ title, isAdmin = false }) {
-  const dispatch = useDispatch()
-  const {
-    positions,
-    loading,
-    error,
-    filter,
-    page,
-    totalPages
-  } = useSelector((state) =>
-    isAdmin ? state.adminPositions : state.positions
-  )
-
-  const { user } = useSelector((state) => state.auth)
-
+export default function PositionList({
+  title,
+  positions = [],
+  loading,
+  error,
+  filter,
+  onSearch,
+  // page,
+  // totalPages,
+  // onPageChange,
+  isAdmin = false,
+  isExpired = false,
+  isCreating = false,
+}) {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
-
   const [typeFilter, setTypeFilter] = useState('')
   const [locationFilter, setLocationFilter] = useState('')
   const [minSpotsFilter, setMinSpotsFilter] = useState('')
-
-  useEffect(() => {
-    const hospitalId = user?.hospital_id
-
-    if (isAdmin) {
-      dispatch(fetchAdminPositions({ filter, page, hospitalId }))
-    } else {
-      dispatch(fetchPositions(filter, page ))
-    }
-  }, [dispatch, filter, page, isAdmin, user?.hospital_id])
-
-  const handleSearch = (e) => {
-    const action = isAdmin ? setAdminFilter : setUserFilter
-    dispatch(action(e.target.value))
-  }
-
-  const handlePageChange = (newPage) => {
-    const action = isAdmin ? setAdminPage : setUserPage
-    dispatch(action(newPage))
-  }
-
-  const openCreateModal = () => setIsCreateOpen(true)
-
-  const closeCreateModal = () => setIsCreateOpen(false)
+  const [dateOrder, setDateOrder] = useState('')
+  const [hospitalFilter, setHospitalFilter] = useState('')
 
   const filteredPositions = positions?.filter((pos) => {
     const matchesType = typeFilter ? pos.type === typeFilter : true
@@ -69,18 +31,33 @@ export default function PositionList({ title, isAdmin = false }) {
     const matchesMinSpots = minSpotsFilter
       ? pos.spots >= parseInt(minSpotsFilter)
       : true
+    const matchesHospital = hospitalFilter
+      ? pos.hospital?.name?.toLowerCase().includes(hospitalFilter.toLowerCase())
+      : true
 
-    return matchesType && matchesLocation && matchesMinSpots
+    return matchesType && matchesLocation && matchesMinSpots && matchesHospital
+  })
+
+  const sortedPositions = [...filteredPositions].sort((a, b) => {
+    if (dateOrder === 'recent') {
+      return new Date(b.created_at) - new Date(a.created_at)
+    }
+    if (dateOrder === 'expiring') {
+      const dateA = a.finished_at ? new Date(a.finished_at) : new Date(8640000000000000)
+      const dateB = b.finished_at ? new Date(b.finished_at) : new Date(8640000000000000)
+      return dateA - dateB
+    }
+    return 0
   })
 
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">{title}</h1>
 
-      {isAdmin && (
+      {(isAdmin && isCreating) && (
         <div className="mb-4">
           <button
-            onClick={openCreateModal}
+            onClick={() => setIsCreateOpen(true)}
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             Criar Vaga
@@ -90,29 +67,41 @@ export default function PositionList({ title, isAdmin = false }) {
 
       <CreateOrEditPositionModal
         isOpen={isCreateOpen}
-        onClose={closeCreateModal}
-        position={null} 
+        onClose={() => setIsCreateOpen(false)}
+        position={null}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <input
           className="border p-2 w-full"
           type="text"
           placeholder="Buscar por título..."
           value={filter}
-          onChange={handleSearch}
+          onChange={onSearch}
         />
-        {!isAdmin &&(<input
-          className="border p-2 w-full"
-          type="text"
-          placeholder="Filtrar por local"
-          value={locationFilter}
-          onChange={(e) => setLocationFilter(e.target.value)}
-          disabled={isAdmin}
-        />)}
-    
+        {!isAdmin && (
+          <>
+            <input
+              className="border p-2 w-full"
+              type="text"
+              placeholder="Filtrar por local"
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+            />
+            <input
+              className="border p-2 w-full"
+              type="text"
+              placeholder="Filtrar por hospital"
+              value={hospitalFilter}
+              onChange={(e) => setHospitalFilter(e.target.value)}
+            />
+          </>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-20">
         <select
-          className="border p-2 w-full"
+          className="border p-2"
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
         >
@@ -121,8 +110,19 @@ export default function PositionList({ title, isAdmin = false }) {
           <option value="IDOSOS">IDOSOS</option>
           <option value="FAMILIAR">FAMILIAR</option>
         </select>
+
+        <select
+          className="border p-2"
+          value={dateOrder}
+          onChange={(e) => setDateOrder(e.target.value)}
+        >
+          <option value="">Data</option>
+          <option value="recent">Mais recentes</option>
+          {(isAdmin && !isExpired) && <option value="expiring">Expirando em breve</option>}
+        </select>
+
         <input
-          className="border p-2 w-full"
+          className="border p-2"
           type="number"
           placeholder="Mínimo de vagas"
           value={minSpotsFilter}
@@ -135,34 +135,15 @@ export default function PositionList({ title, isAdmin = false }) {
       {error && <p className="text-red-500">{error}</p>}
 
       <div className="grid gap-4">
-        {filteredPositions && filteredPositions.length > 0 ? (
-          filteredPositions.map((position) => (
-            <CardPosition
-              key={position.id}
-              position={position}
-              isAdmin={isAdmin}
-            />
+        {sortedPositions.length > 0 ? (
+          sortedPositions.map((position) => (
+            <CardPosition key={position.id} position={position} isAdmin={isAdmin} />
           ))
         ) : (
-          <span>Sem vagas no momento.</span>
+          <p>Nenhuma vaga encontrada.</p>
         )}
       </div>
 
-      <div className="flex justify-center gap-4 mt-6">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
-          <button
-            key={num}
-            onClick={() => handlePageChange(num)}
-            className={`px-3 py-1 rounded ${
-              num === page
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 hover:bg-gray-300'
-            }`}
-          >
-            {num}
-          </button>
-        ))}
-      </div>
     </div>
   )
 }

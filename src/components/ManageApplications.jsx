@@ -5,7 +5,6 @@ import { fetchApplicationsAdmin, updateApplicationStatus } from '../redux/action
 export default function ManageApplications() {
   const dispatch = useDispatch()
   const { applications, loading, error } = useSelector(state => state.adminApplications)
-
   const [emailFilter, setEmailFilter] = useState('')
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function ManageApplications() {
   return (
     <div className="p-4">
 
-      {/* 🔍 Input de busca */}
       <div className="mb-4">
         <input
           type="text"

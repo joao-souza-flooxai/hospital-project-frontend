@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-export default function Collapse({ title, children }) {
-  const [isOpen, setIsOpen] = useState(true)
+export default function Collapse({ title, children, isItToBeOpen=true }) {
+  const [isOpen, setIsOpen] = useState(isItToBeOpen)
 
   const toggle = () => setIsOpen(!isOpen)
 

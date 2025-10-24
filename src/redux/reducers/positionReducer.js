@@ -29,6 +29,15 @@ export const positionReducer = (state = initialState, action) => {
 
     case 'SET_PAGE':
       return { ...state, page: action.payload }
+
+      case 'UPDATE_POSITION':
+      return {
+        ...state,
+        positions: state.positions.map((pos) =>
+          pos.id === action.payload.id ? action.payload : pos
+        ),
+      };
+
     default:
       return state
   }

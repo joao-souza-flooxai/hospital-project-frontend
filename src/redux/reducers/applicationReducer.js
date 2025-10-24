@@ -10,7 +10,12 @@ const applicationReducer = (state = initialState, action) => {
     case 'APPLY_TO_POSITION_REQUEST':
       return { ...state, loading: true, success: false, error: null }
     case 'APPLY_TO_POSITION_SUCCESS':
-      return { ...state, loading: false, success: true }
+        return {
+        ...state,
+        loading: false,
+        success: true,
+        applications: [...state.applications, action.payload.application],
+    };
     case 'APPLY_TO_POSITION_FAILURE':
       return { ...state, loading: false, error: action.payload }
     case 'FETCH_APPLICATIONS_REQUEST':

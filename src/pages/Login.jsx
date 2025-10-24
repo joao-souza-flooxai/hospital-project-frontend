@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { login } from '../redux/actions/authActions'
 import ErrorModal from '../components/ErrorOrSucessModal.jsx'
+
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
